@@ -148,8 +148,8 @@ public:
 		return getElement(s, root);
 	}
 
-	vector<T> BTree<T>::listLeaves (){
+/*	vector<T> BTree<T>::listLeaves (){
 
-	}
+	}*/
 	/* data */
 };
