@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 template<class T>
 struct Node{
 	T data;
@@ -99,6 +100,21 @@ Node<T>* root;
 
 	}
 
+	//подавайте само верни пътища защото наистина не знам какво да връщам като стойност ако го омажете
+
+	T& getElement(const char *s, Node<T>* root){
+		//std::cout<<s[0]<<" "<<root->data<<std::endl;
+		if(s[0] == '\0'){
+			std::cout<<s[0]<<" "<<root->data<<std::endl;
+			return root->data;
+		}
+
+		if(s[0] == 'L'){
+			getElement(s + 1, root->left);
+		}
+		getElement(s + 1, root->right);
+	}
+
 public:
 	BTree():root(nullptr){
 
@@ -126,6 +142,14 @@ public:
 
 	T maxLeaf() const{
 		return maxLeaf(root);
+	}
+
+	T& getElement(const char *s){
+		return getElement(s, root);
+	}
+
+	vector<T> BTree<T>::listLeaves (){
+
 	}
 	/* data */
 };
