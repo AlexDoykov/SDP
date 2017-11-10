@@ -43,6 +43,7 @@ TEST_CASE("test counters"){
 	}
 
 	SUBCASE("count even nodes"){
+		CHECK(tree.countEvens() == 0);	
 		CHECK(tree.insert(1, "") == 1);
 		CHECK(tree.insert(2, "L") == 1);
 		CHECK(tree.insert(3, "R") == 1);
@@ -57,6 +58,7 @@ TEST_CASE("test counters"){
 	}
 
 	SUBCASE("height of tree"){
+		CHECK(tree.height() == 0);
 		CHECK(tree.insert(1, "") == 1);
 		CHECK(tree.insert(2, "L") == 1);
 		CHECK(tree.insert(3, "R") == 1);
@@ -71,6 +73,7 @@ TEST_CASE("test counters"){
 	}
 
 	SUBCASE("count tree leaves"){
+		CHECK(tree.countLeaves() == 0);	
 		CHECK(tree.insert(1, "") == 1);
 		CHECK(tree.insert(2, "L") == 1);
 		CHECK(tree.insert(3, "R") == 1);
@@ -86,6 +89,7 @@ TEST_CASE("test counters"){
 
 	SUBCASE("max leaf"){
 		CHECK(tree.insert(1, "") == 1);
+		CHECK(tree.maxLeaf() == 1);	
 		CHECK(tree.insert(2, "L") == 1);
 		CHECK(tree.insert(3, "R") == 1);
 		CHECK(tree.insert(4, "LL") == 1);
@@ -99,9 +103,9 @@ TEST_CASE("test counters"){
 	}
 }
 
-TEST_CASE("create tree"){
+TEST_CASE("get element of the tree"){
 	BTree<int> tree;
-	SUBCASE("with insert"){
+	SUBCASE("getElement"){
 		CHECK(tree.count() == 0);
 		CHECK(tree.insert(1, "") == 1);
 		CHECK(tree.count() == 1);
@@ -117,5 +121,20 @@ TEST_CASE("create tree"){
 		CHECK(tree.getElement("RR") == 6);
 		CHECK(tree.getElement("RRR") == 7);
 		CHECK(tree.getElement("") == 1);
+	}
+
+	SUBCASE("list all leaves"){
+		CHECK(tree.insert(1, "") == 1);
+		CHECK(tree.insert(2, "L") == 1);
+		CHECK(tree.insert(3, "R") == 1);
+		CHECK(tree.insert(4, "LL") == 1);
+		CHECK(tree.insert(5, "LR") == 1);
+		CHECK(tree.insert(6, "RR") == 1);
+		CHECK(tree.insert(7, "RRR") == 1);
+
+		std::vector<int> testResult = {4, 5, 7};
+		std::vector<int> result = tree.listLeaves();
+		CHECK(result.size() == testResult.size());
+		CHECK(result == testResult);
 	}
 }

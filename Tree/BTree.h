@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
 template<class T>
 struct Node{
 	T data;
@@ -105,7 +106,7 @@ Node<T>* root;
 	T& getElement(const char *s, Node<T>* root){
 		//std::cout<<s[0]<<" "<<root->data<<std::endl;
 		if(s[0] == '\0'){
-			std::cout<<s[0]<<" "<<root->data<<std::endl;
+			//std::cout<<s[0]<<" "<<root->data<<std::endl;
 			return root->data;
 		}
 
@@ -113,6 +114,12 @@ Node<T>* root;
 			getElement(s + 1, root->left);
 		}
 		getElement(s + 1, root->right);
+	}
+
+	const Node<T>* pop(stack<Node<T>*>& st){
+		Node<T>* result = st.top();
+		st.pop();
+		return result;
 	}
 
 public:
@@ -148,8 +155,42 @@ public:
 		return getElement(s, root);
 	}
 
-/*	vector<T> BTree<T>::listLeaves (){
+	std::vector<T> listLeaves () const{
+		std::stack<Node<T>*> subTrees;
+		subTrees.push(root);
+		std::vector<T> leaves;
+		while(!subTrees.empty()){
+			Node<T>* curr = pop(subTrees);
+			if(curr->left == nullptr && curr->right == nullptr){
+				leaves.push_back(curr->data);
+			}
+			if(curr->right != nullptr){
+				subTrees.push(curr->right);
+			}
+			if(curr->left != nullptr){
+				subTrees.push(curr->left);
+			}
+		}
+		return leaves;
+	}
 
+/*	std::string findTrace (const T& x) const{
+		std::stack<Node<T>*> subTrees;
+		subTrees.push(root);
+		std::vector<T> leaves;
+		while(!subTrees.empty()){
+			Node<T>* curr = subTrees.top();
+			subTrees.pop();
+			if(curr->data == x){
+				leaves.push_back(curr->data);
+			}
+			if(curr->right != nullptr){
+				subTrees.push(curr->right);
+			}
+			if(curr->left != nullptr){
+				subTrees.push(curr->left);
+			}
+		}
 	}*/
 	/* data */
 };
