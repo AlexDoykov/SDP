@@ -4,6 +4,7 @@
 #include <stack>
 #include <queue>
 #include <unordered_set>
+#include <assert.h>
 template<class T>
 struct Node{
 	T data;
@@ -85,35 +86,44 @@ Node<T>* root;
 	}
 
 	T maxLeaf(Node<T> *root) const{
+		if(root == nullptr){
+			assert(false);
+		}
+
 		if(root->left == nullptr && root->right == nullptr){
 			return root->data;
 		}
 
-		if(root->left != nullptr && root->right != nullptr){
-			return ((maxLeaf(root->left) > maxLeaf(root->right)) ? maxLeaf(root->left) : maxLeaf(root->right));
+		if(root->left == nullptr){
+			return maxLeaf(root->right);
+
 		}
 
-		if(root->left != nullptr){
+		if(root->right == nullptr){
 			return maxLeaf(root->left);
 		}
-		T maxRightLeaf;
-		if(root->right != nullptr){
-			return maxLeaf(root->right);
-		}
+
+		T maxLeftLeaf = maxLeaf(root->left);
+		T maxRightLeaf = maxLeaf(root->right);
+
+		return (maxRightLeaf > maxLeftLeaf) ? maxRightLeaf : maxLeftLeaf;
 
 	}
 
-	//подавайте само верни пътища защото наистина не знам какво да връщам като стойност ако го омажете
-
 	T& getElement(const char *s, Node<T>* root){
+
+		if(root == nullptr || (s[0] != 'R' && s[0] != 'L' && s[0] != '\0')){
+			assert(false);
+		}
+
 		if(s[0] == '\0'){
 			return root->data;
 		}
 
 		if(s[0] == 'L'){
-			getElement(s + 1, root->left);
+			return getElement(s + 1, root->left);
 		}
-		getElement(s + 1, root->right);
+		return getElement(s + 1, root->right);
 	}
 
 	Node<T>* pop(std::stack<Node<T>*>& st){
@@ -170,10 +180,13 @@ public:
 		return getElement(s, root);
 	}
 
-	std::vector<T> listLeaves (){
+	std::vector<T> listLeaves () const{
 		std::stack<Node<T>*> subTrees;
-		subTrees.push(root);
 		std::vector<T> leaves;
+		if(root == nullptr){
+			return leaves;
+		}
+		subTrees.push(root);
 		while(!subTrees.empty()){
 			//тук много ли е грешно, че така съм го написал
 			Node<T>* curr = pop(subTrees);
@@ -218,7 +231,5 @@ public:
 		checkForEqualLevels(root, 0, result);
 		return result;
 	}
-
-
 	/* data */
 };
