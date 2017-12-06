@@ -197,7 +197,7 @@ TEST_CASE("check equal levels"){
 
 TEST_CASE("check is the tree binary"){
 	BTree<int> tree;
-	SUBCASE("check when the tree is binary"){
+	SUBCASE("check when the tree is binary true"){
 		CHECK(tree.insert(20, "") == 1);
 		CHECK(tree.insert(10, "L") == 1);
 		CHECK(tree.insert(5, "LL") == 1);
@@ -225,7 +225,192 @@ TEST_CASE("check is the tree binary"){
 		CHECK(tree.insert(27, "RRRL") == 1);
 		CHECK(tree.insert(30, "RRRR") == 1);
 
-		std::cout<<std::endl;
-		std::cout<<"CHECK "<<tree.isBOT()<<std::endl;
+		CHECK(tree.isBOT() == 1);
 	}
+
+	SUBCASE("check when the tree is binary false 1"){
+		CHECK(tree.insert(26, "") == 1);
+		CHECK(tree.insert(10, "L") == 1);
+		CHECK(tree.insert(5, "LL") == 1);
+		CHECK(tree.insert(3, "LLL") == 1);
+		CHECK(tree.insert(1, "LLLL") == 1);
+		CHECK(tree.insert(4, "LLLR") == 1);
+		CHECK(tree.insert(7, "LLR") == 1);
+		CHECK(tree.insert(6, "LLRL") == 1);
+		CHECK(tree.insert(8, "LLRR") == 1);
+		CHECK(tree.insert(9, "LLRRR") == 1);
+		CHECK(tree.insert(15, "LR") == 1);
+		CHECK(tree.insert(13, "LRL") == 1);
+		CHECK(tree.insert(12, "LRLL") == 1);
+		CHECK(tree.insert(14, "LRLR") == 1);
+		CHECK(tree.insert(18, "LRR") == 1);
+		CHECK(tree.insert(17, "LRRL") == 1);
+		CHECK(tree.insert(19, "LRRR") == 1);
+		CHECK(tree.insert(25, "R") == 1);
+		CHECK(tree.insert(23, "RL") == 1);
+		CHECK(tree.insert(21, "RLL") == 1);
+		CHECK(tree.insert(22, "RLLR") == 1);
+		CHECK(tree.insert(24, "RLR") == 1);
+		CHECK(tree.insert(26, "RR") == 1);
+		CHECK(tree.insert(28, "RRR") == 1);
+		CHECK(tree.insert(27, "RRRL") == 1);
+		CHECK(tree.insert(30, "RRRR") == 1);
+
+		CHECK(tree.isBOT() == 0);
+	}
+
+		SUBCASE("check when the tree is binary false 2"){
+			CHECK(tree.insert(25, "") == 1);
+			CHECK(tree.insert(21, "L") == 1);
+			CHECK(tree.insert(5, "LL") == 1);
+			CHECK(tree.insert(3, "LLL") == 1);
+			CHECK(tree.insert(1, "LLLL") == 1);
+			CHECK(tree.insert(4, "LLLR") == 1);
+			CHECK(tree.insert(7, "LLR") == 1);
+			CHECK(tree.insert(6, "LLRL") == 1);
+			CHECK(tree.insert(8, "LLRR") == 1);
+			CHECK(tree.insert(9, "LLRRR") == 1);
+			CHECK(tree.insert(15, "LR") == 1);
+			CHECK(tree.insert(13, "LRL") == 1);
+			CHECK(tree.insert(12, "LRLL") == 1);
+			CHECK(tree.insert(14, "LRLR") == 1);
+			CHECK(tree.insert(18, "LRR") == 1);
+			CHECK(tree.insert(17, "LRRL") == 1);
+			CHECK(tree.insert(19, "LRRR") == 1);
+			CHECK(tree.insert(25, "R") == 1);
+			CHECK(tree.insert(23, "RL") == 1);
+			CHECK(tree.insert(21, "RLL") == 1);
+			CHECK(tree.insert(22, "RLLR") == 1);
+			CHECK(tree.insert(24, "RLR") == 1);
+			CHECK(tree.insert(26, "RR") == 1);
+			CHECK(tree.insert(28, "RRR") == 1);
+			CHECK(tree.insert(27, "RRRL") == 1);
+			CHECK(tree.insert(30, "RRRR") == 1);
+
+			CHECK(tree.isBOT() == 0);
+		}
+
+		SUBCASE("check when the tree is binary false 3"){
+			CHECK(tree.insert(25, "") == 1);
+			CHECK(tree.insert(10, "L") == 1);
+			CHECK(tree.insert(5, "LL") == 1);
+			CHECK(tree.insert(3, "LLL") == 1);
+			CHECK(tree.insert(5, "LLLL") == 1);
+			CHECK(tree.insert(4, "LLLR") == 1);
+			CHECK(tree.insert(7, "LLR") == 1);
+			CHECK(tree.insert(6, "LLRL") == 1);
+			CHECK(tree.insert(8, "LLRR") == 1);
+			CHECK(tree.insert(9, "LLRRR") == 1);
+			CHECK(tree.insert(15, "LR") == 1);
+			CHECK(tree.insert(13, "LRL") == 1);
+			CHECK(tree.insert(12, "LRLL") == 1);
+			CHECK(tree.insert(14, "LRLR") == 1);
+			CHECK(tree.insert(18, "LRR") == 1);
+			CHECK(tree.insert(17, "LRRL") == 1);
+			CHECK(tree.insert(19, "LRRR") == 1);
+			CHECK(tree.insert(25, "R") == 1);
+			CHECK(tree.insert(23, "RL") == 1);
+			CHECK(tree.insert(21, "RLL") == 1);
+			CHECK(tree.insert(22, "RLLR") == 1);
+			CHECK(tree.insert(24, "RLR") == 1);
+			CHECK(tree.insert(26, "RR") == 1);
+			CHECK(tree.insert(28, "RRR") == 1);
+			CHECK(tree.insert(27, "RRRL") == 1);
+			CHECK(tree.insert(30, "RRRR") == 1);
+
+			CHECK(tree.isBOT() == 0);
+		}
+
+		SUBCASE("check when the tree is binary false 4"){
+			CHECK(tree.insert(25, "") == 1);
+			CHECK(tree.insert(10, "L") == 1);
+			CHECK(tree.insert(5, "LL") == 1);
+			CHECK(tree.insert(3, "LLL") == 1);
+			CHECK(tree.insert(1, "LLLL") == 1);
+			CHECK(tree.insert(2, "LLLR") == 1);
+			CHECK(tree.insert(7, "LLR") == 1);
+			CHECK(tree.insert(6, "LLRL") == 1);
+			CHECK(tree.insert(8, "LLRR") == 1);
+			CHECK(tree.insert(9, "LLRRR") == 1);
+			CHECK(tree.insert(15, "LR") == 1);
+			CHECK(tree.insert(13, "LRL") == 1);
+			CHECK(tree.insert(12, "LRLL") == 1);
+			CHECK(tree.insert(14, "LRLR") == 1);
+			CHECK(tree.insert(18, "LRR") == 1);
+			CHECK(tree.insert(17, "LRRL") == 1);
+			CHECK(tree.insert(19, "LRRR") == 1);
+			CHECK(tree.insert(25, "R") == 1);
+			CHECK(tree.insert(23, "RL") == 1);
+			CHECK(tree.insert(21, "RLL") == 1);
+			CHECK(tree.insert(22, "RLLR") == 1);
+			CHECK(tree.insert(24, "RLR") == 1);
+			CHECK(tree.insert(26, "RR") == 1);
+			CHECK(tree.insert(28, "RRR") == 1);
+			CHECK(tree.insert(27, "RRRL") == 1);
+			CHECK(tree.insert(30, "RRRR") == 1);
+
+			CHECK(tree.isBOT() == 0);
+		}
+
+		SUBCASE("check when the tree is binary false 5"){
+			CHECK(tree.insert(25, "") == 1);
+			CHECK(tree.insert(10, "L") == 1);
+			CHECK(tree.insert(5, "LL") == 1);
+			CHECK(tree.insert(3, "LLL") == 1);
+			CHECK(tree.insert(1, "LLLL") == 1);
+			CHECK(tree.insert(4, "LLLR") == 1);
+			CHECK(tree.insert(7, "LLR") == 1);
+			CHECK(tree.insert(6, "LLRL") == 1);
+			CHECK(tree.insert(8, "LLRR") == 1);
+			CHECK(tree.insert(9, "LLRRR") == 1);
+			CHECK(tree.insert(15, "LR") == 1);
+			CHECK(tree.insert(13, "LRL") == 1);
+			CHECK(tree.insert(12, "LRLL") == 1);
+			CHECK(tree.insert(14, "LRLR") == 1);
+			CHECK(tree.insert(18, "LRR") == 1);
+			CHECK(tree.insert(17, "LRRL") == 1);
+			CHECK(tree.insert(19, "LRRR") == 1);
+			CHECK(tree.insert(25, "R") == 1);
+			CHECK(tree.insert(23, "RL") == 1);
+			CHECK(tree.insert(21, "RLL") == 1);
+			CHECK(tree.insert(22, "RLLR") == 1);
+			CHECK(tree.insert(24, "RLR") == 1);
+			CHECK(tree.insert(26, "RR") == 1);
+			CHECK(tree.insert(28, "RRR") == 1);
+			CHECK(tree.insert(27, "RRRL") == 1);
+			CHECK(tree.insert(30, "RRRR") == 1);
+
+			CHECK(tree.isBOT() == 0);
+		}
+
+		SUBCASE("check when the tree is binary false 6"){
+			CHECK(tree.insert(25, "") == 1);
+			CHECK(tree.insert(10, "L") == 1);
+			CHECK(tree.insert(5, "LL") == 1);
+			CHECK(tree.insert(3, "LLL") == 1);
+			CHECK(tree.insert(1, "LLLL") == 1);
+			CHECK(tree.insert(4, "LLLR") == 1);
+			CHECK(tree.insert(7, "LLR") == 1);
+			CHECK(tree.insert(6, "LLRL") == 1);
+			CHECK(tree.insert(8, "LLRR") == 1);
+			CHECK(tree.insert(9, "LLRRR") == 1);
+			CHECK(tree.insert(15, "LR") == 1);
+			CHECK(tree.insert(13, "LRL") == 1);
+			CHECK(tree.insert(12, "LRLL") == 1);
+			CHECK(tree.insert(14, "LRLR") == 1);
+			CHECK(tree.insert(14, "LRR") == 1);
+			CHECK(tree.insert(17, "LRRL") == 1);
+			CHECK(tree.insert(19, "LRRR") == 1);
+			CHECK(tree.insert(25, "R") == 1);
+			CHECK(tree.insert(23, "RL") == 1);
+			CHECK(tree.insert(21, "RLL") == 1);
+			CHECK(tree.insert(22, "RLLR") == 1);
+			CHECK(tree.insert(24, "RLR") == 1);
+			CHECK(tree.insert(26, "RR") == 1);
+			CHECK(tree.insert(28, "RRR") == 1);
+			CHECK(tree.insert(27, "RRRL") == 1);
+			CHECK(tree.insert(30, "RRRR") == 1);
+
+			CHECK(tree.isBOT() == 0);
+		}
 }

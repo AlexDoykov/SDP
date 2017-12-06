@@ -174,21 +174,13 @@ Node<T>* root;
 	}
 
 	bool isBOT(Node<T>* root, const T& lowerBound, const T& upperBound, int token){
-		std::cout<<root->data<<" "<<lowerBound<<" "<<upperBound<<" "<<token<<std::endl;
 
-		if(token == -1 && root->data > upperBound){
+		if(token == -1 && root->data > upperBound ||
+			token == 1 && root->data < lowerBound ||
+			((root->data < lowerBound || root->data > upperBound) && token == 0)){
+
 			return 0;
 		}
-
-		if(token == 1 && root->data < lowerBound){
-			return 0;
-		}
-
-		if((root->data < lowerBound || root->data > upperBound) && token == 0 ){
-						std::cout<<"\nHERE "<<token<<" "<<root->data<<" "<<lowerBound<<" "<<upperBound<<"\n";
-
-			return 0;
-		}	
 
 		if(root->left == nullptr && root->right == nullptr){
 			return 1;
@@ -196,13 +188,7 @@ Node<T>* root;
 
 		if(root->left == nullptr){
 			if(token == -1){
-				std::cout<<"from 197 ";
 				return isBOT(root->right, root->data, upperBound, 0);
-			}
-
-			if(token == 1){
-				std::cout<<"from 201 ";
-				return isBOT(root->right, root->data, upperBound, token);
 			}
 
 			return isBOT(root->right, root->data, upperBound, token);
@@ -210,34 +196,24 @@ Node<T>* root;
 
 
 		if(root->right == nullptr){
-			if(token == -1){
-				std::cout<<"from 207 ";
-				return isBOT(root->left, lowerBound, upperBound, token);
-			}
-
 			if(token == 1){
-				std::cout<<"from 211 ";
 				return isBOT(root->left, lowerBound, root->data, 0);
 			}
 
 			return isBOT(root->left, lowerBound, upperBound, token);
 		}
 
+		int rightToken = token, leftToken = token;
 		if(token == 1){
-			std::cout<<"from 216 ";
-			return isBOT(root->right, root->data, upperBound, token) &&
-				isBOT(root->left, lowerBound, root->data, 0);
+			leftToken = 0;
 		}
 
 		if(token == -1){
-			std::cout<<"from 222 ";
-			return isBOT(root->left, lowerBound, root->data, token) &&
-				isBOT(root->right, root->data, upperBound, 0);
+			rightToken = 0;	
 		}
 
-		std::cout<<"from 227 ";
-		return isBOT(root->left, lowerBound, root->data, token) &&
-			isBOT(root->right, root->data, upperBound, token);
+		return isBOT(root->left, lowerBound, root->data, leftToken) &&
+			isBOT(root->right, root->data, upperBound, rightToken);
 
 	}
 
@@ -320,14 +296,14 @@ public:
 		}
 
 		if(root->left == nullptr){
-			return isBOT(root->right, root->data, 0, 1);
+			return isBOT(root->right, root->data, T(), 1);
 		}
 
 		if(root->right == nullptr){
-			return isBOT(root->left, 0, root->data, -1);
+			return isBOT(root->left, T(), root->data, -1);
 		}
 
-		return isBOT(root->right, root->data, 0, 1) && isBOT(root->left, 0, root->data, -1);
+		return isBOT(root->right, root->data, T(), 1) && isBOT(root->left, T(), root->data, -1);
 	}
 	/* data */
 };
