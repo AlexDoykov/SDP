@@ -147,6 +147,100 @@ Node<T>* root;
 		}
 	}
 
+	void findTrace(const T& x, std::string& trace, Node<T>* root, bool& found){
+		if(root == nullptr){
+			return;
+		}
+		if(root->data == x){
+			trace = "";
+			found = 1;
+			return;
+		}
+
+		findTrace(x, trace, root->left, found);
+		if(found == true){
+			trace += 'L';
+			return;
+		}
+
+		findTrace(x, trace, root->right, found);
+		if(found == true){
+			trace += 'R';
+			return;
+		}
+
+		trace = "_";
+		return;
+	}
+
+	bool isBOT(Node<T>* root, T lowerBound, T upperBound, int token){
+		std::cout<<root->data<<" "<<lowerBound<<" "<<upperBound<<" "<<token<<std::endl;
+
+		if(token == -1 && root->data > upperBound){
+			return 0;
+		}
+
+		if(token == 1 && root->data < lowerBound){
+			return 0;
+		}
+
+		if((root->data < lowerBound || root->data > upperBound) && token == 0 ){
+						std::cout<<"\nHERE "<<token<<" "<<root->data<<" "<<lowerBound<<" "<<upperBound<<"\n";
+
+			return 0;
+		}	
+
+		if(root->left == nullptr && root->right == nullptr){
+			return 1;
+		}
+
+		if(root->left == nullptr){
+			if(token == -1){
+				std::cout<<"from 197 ";
+				return isBOT(root->right, root->data, upperBound, 0);
+			}
+
+			if(token == 1){
+				std::cout<<"from 201 ";
+				return isBOT(root->right, root->data, upperBound, token);
+			}
+
+			return isBOT(root->right, root->data, upperBound, token);
+		}
+
+
+		if(root->right == nullptr){
+			if(token == -1){
+				std::cout<<"from 207 ";
+				return isBOT(root->left, lowerBound, upperBound, token);
+			}
+
+			if(token == 1){
+				std::cout<<"from 211 ";
+				return isBOT(root->left, lowerBound, root->data, 0);
+			}
+
+			return isBOT(root->left, lowerBound, upperBound, token);
+		}
+
+		if(token == 1){
+			std::cout<<"from 216 ";
+			return isBOT(root->right, root->data, upperBound, token) &&
+				isBOT(root->left, lowerBound, root->data, 0);
+		}
+
+		if(token == -1){
+			std::cout<<"from 222 ";
+			return isBOT(root->left, lowerBound, root->data, token) &&
+				isBOT(root->right, root->data, upperBound, 0);
+		}
+
+		std::cout<<"from 227 ";
+		return isBOT(root->left, lowerBound, root->data, token) &&
+			isBOT(root->right, root->data, upperBound, token);
+
+	}
+
 public:
 	BTree():root(nullptr){
 
@@ -180,7 +274,7 @@ public:
 		return getElement(s, root);
 	}
 
-	std::vector<T> listLeaves () const{
+	std::vector<T> listLeaves (){
 		std::stack<Node<T>*> subTrees;
 		std::vector<T> leaves;
 		if(root == nullptr){
@@ -202,34 +296,38 @@ public:
 		}
 		return leaves;
 	}
-	//not working
-	/*std::string findTrace (const T& x) const{
-		std::stack<Node<T>*> subTrees;
-		subTrees.push(root);
-		std::string trace;
-		while(!subTrees.empty()){
-			Node<T>* curr = subTrees.top();
-			subTrees.pop();
-			if(curr->data == x){
-				return trace;
-			}
-			if(curr->right != nullptr){
-				trace += 'R';
-				subTrees.push(curr->right);
-			}
-			if(curr->left != nullptr){
-				trace += 'L';
-				subTrees.push(curr->left);
-			}
-		}
 
-		return "_";
-	}*/
+	std::string findTrace(const T& x){
+		std::string str;
+		bool found = 0;
+		findTrace(x, str, root, found);
+		return str;
+	}
 
 	std::vector<std::unordered_set<T>> checkForEqualLevels() const{
 		std::vector<std::unordered_set<T>> result;
 		checkForEqualLevels(root, 0, result);
 		return result;
+	}
+
+	bool isBOT(){
+		if(root == nullptr){
+			return 0;
+		}
+
+		if(root->left == nullptr && root->right == nullptr){
+			return 1;
+		}
+
+		if(root->left == nullptr){
+			return isBOT(root->right, root->data, 0, 1);
+		}
+
+		if(root->right == nullptr){
+			return isBOT(root->left, 0, root->data, -1);
+		}
+
+		return isBOT(root->right, root->data, 0, 1) && isBOT(root->left, 0, root->data, -1);
 	}
 	/* data */
 };

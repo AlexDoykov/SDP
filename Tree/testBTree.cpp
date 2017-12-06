@@ -163,10 +163,11 @@ TEST_CASE("get element of the tree"){
 		CHECK(tree.insert(4, "LL") == 1);
 		CHECK(tree.insert(5, "LR") == 1);
 		CHECK(tree.insert(6, "RR") == 1);
+		CHECK(tree.insert(8, "RRL") == 1);
 		CHECK(tree.insert(7, "RRR") == 1);
 
-		std::string testResult = "RRR";
-		std::string result = tree.findTrace(7);
+		std::string testResult = "LR";
+		std::string result = tree.findTrace(8);
 		CHECK(result.size() == testResult.size());
 		CHECK(result == testResult);
 	}*/
@@ -191,5 +192,40 @@ TEST_CASE("check equal levels"){
 		std::vector<std::unordered_set<int>> result = tree.checkForEqualLevels();
 
 		CHECK(tree.checkForEqualLevels() == expectedResult);
+	}
+}
+
+TEST_CASE("check is the tree binary"){
+	BTree<int> tree;
+	SUBCASE("check when the tree is binary"){
+		CHECK(tree.insert(20, "") == 1);
+		CHECK(tree.insert(10, "L") == 1);
+		CHECK(tree.insert(5, "LL") == 1);
+		CHECK(tree.insert(3, "LLL") == 1);
+		CHECK(tree.insert(1, "LLLL") == 1);
+		CHECK(tree.insert(4, "LLLR") == 1);
+		CHECK(tree.insert(7, "LLR") == 1);
+		CHECK(tree.insert(6, "LLRL") == 1);
+		CHECK(tree.insert(8, "LLRR") == 1);
+		CHECK(tree.insert(9, "LLRRR") == 1);
+		CHECK(tree.insert(15, "LR") == 1);
+		CHECK(tree.insert(13, "LRL") == 1);
+		CHECK(tree.insert(12, "LRLL") == 1);
+		CHECK(tree.insert(14, "LRLR") == 1);
+		CHECK(tree.insert(18, "LRR") == 1);
+		CHECK(tree.insert(17, "LRRL") == 1);
+		CHECK(tree.insert(19, "LRRR") == 1);
+		CHECK(tree.insert(25, "R") == 1);
+		CHECK(tree.insert(23, "RL") == 1);
+		CHECK(tree.insert(21, "RLL") == 1);
+		CHECK(tree.insert(22, "RLLR") == 1);
+		CHECK(tree.insert(24, "RLR") == 1);
+		CHECK(tree.insert(26, "RR") == 1);
+		CHECK(tree.insert(28, "RRR") == 1);
+		CHECK(tree.insert(27, "RRRL") == 1);
+		CHECK(tree.insert(30, "RRRR") == 1);
+
+		std::cout<<std::endl;
+		std::cout<<"CHECK "<<tree.isBOT()<<std::endl;
 	}
 }
