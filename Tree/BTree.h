@@ -173,7 +173,7 @@ Node<T>* root;
 		return;
 	}
 
-	bool isBOT(Node<T>* root, T lowerBound, T upperBound, int token){
+	bool isBOT(Node<T>* root, const T& lowerBound, const T& upperBound, int token){
 		std::cout<<root->data<<" "<<lowerBound<<" "<<upperBound<<" "<<token<<std::endl;
 
 		if(token == -1 && root->data > upperBound){
