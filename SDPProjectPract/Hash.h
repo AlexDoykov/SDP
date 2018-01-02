@@ -1,8 +1,13 @@
 #include <vector>
+#include <algorithm>
+
+using Pair = std::pair<char,unsigned>;
 
 unsigned hashFunc(char symbol){
 	return (int) symbol;
 }
+
+
 
 class Hash
 {
@@ -84,5 +89,9 @@ public:
 
 	size_t size(){
 		return hash.size();
+	}
+
+	void sort(){
+		std::sort(hash.begin(), hash.end(), [](Pair i,Pair j) { return (i.second < j.second);} );
 	}
 };
