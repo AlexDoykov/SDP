@@ -291,6 +291,15 @@ public:
 
 	}
 
+
+	class Iterator{
+	private:
+	public:
+		void operator ++();
+		const T& operator *();
+
+	};
+
 /*	BTree(const T& rootData, const BTree<T>& leftSubTree, const BTree<T>& RightSubTree):root(nullptr){
 		root = new Node<T>(rootData, leftSubTree.root, RightSubTree);
 	}*/

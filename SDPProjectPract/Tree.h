@@ -1,3 +1,4 @@
+using Pair = std::pair<char,unsigned>;
 
 struct Node{
 	std::pair<char, unsigned> data;
@@ -49,6 +50,18 @@ private:
 		print(root->left, spaces + 1);
 
 	}
+/*
+	string trace(char x, Node* root){
+		if(root == nullptr){
+			return "";
+		}
+
+		if(root->data.first == x){
+			return 
+		}
+
+		return 
+	}*/
 
 public:
 	Tree():root(nullptr){
@@ -64,8 +77,8 @@ public:
 		root = new Node(data, copy(leftTree.root), copy(rightTree.root));
 	}
 
-	unsigned rootData(){
-		return root->data.second;
+	Pair rootData() const{
+		return root->data;
 	}
 
 	unsigned count(){
@@ -75,4 +88,12 @@ public:
 	void print(){
 		print(root, 0);
 	}
+
+/*	string trace(char x){
+		return trace(x, root);
+	}*/
+
+	/*vector<char> binarySequence(){
+
+	}*/
 };

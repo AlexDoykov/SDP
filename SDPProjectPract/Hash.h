@@ -90,8 +90,4 @@ public:
 	size_t size(){
 		return hash.size();
 	}
-
-	void sort(){
-		std::sort(hash.begin(), hash.end(), [](Pair i,Pair j) { return (i.second < j.second);} );
-	}
 };
