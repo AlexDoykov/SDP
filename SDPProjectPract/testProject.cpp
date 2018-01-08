@@ -14,9 +14,34 @@
 
 struct Compare{
 	bool operator()(Tree t1, Tree t2){
+		if(t1.rootData().second == t2.rootData().second){
+			return t1.rootData().first > t2.rootData().first;
+		}
 		return t1.rootData().second > t2.rootData().second;
 	}
 };
+
+Tree buildHuffmanTree(std::priority_queue<Tree, std::vector<Tree>, Compare> trees){
+	while(trees.size() > 1){
+		std::priority_queue<Tree, std::vector<Tree>, Compare> print = trees;
+		while(!print.empty()){
+			std::cout<<"("<<print.top().rootData().second<<" "<<print.top().rootData().first<<") ";
+			print.pop();
+		}
+		std::cout<<std::endl;
+		Tree tree1 = trees.top();
+		trees.pop();
+		Tree tree2 = trees.top();
+		trees.pop();
+		
+		unsigned newRootData = tree1.rootData().second + tree2.rootData().second;
+
+		trees.push(Tree(std::make_pair(0, newRootData), 
+										tree1, tree2));
+
+	}
+	return trees.top();
+}
 
 int main(){
 	Hash table;
@@ -31,28 +56,7 @@ int main(){
 		trees.push((*it));
 	}
 
-
-	
-	while(trees.size() > 1){
-		std::priority_queue<Tree, std::vector<Tree>, Compare> print = trees;
-		while(!print.empty()){
-			std::cout<<print.top().rootData().second<<" "<<print.top().rootData().first<<" ";
-			print.pop();
-		}
-		std::cout<<std::endl;
-		Tree tree1 = trees.top();
-		trees.pop();
-		Tree tree2 = trees.top();
-		trees.pop();
-		
-		unsigned newRootData = tree1.rootData().second + tree2.rootData().second;
-
-		trees.push(Tree(std::make_pair(char(), newRootData), 
-										tree1, tree2));
-
-	}
-
-	Tree huffmanTree = trees.top();
+	Tree huffmanTree = buildHuffmanTree(trees);
 	//binarySequence(tree, testString);
 
 	std::cout<<"====================\n";

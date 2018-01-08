@@ -590,7 +590,11 @@ TEST_CASE("delete"){
 		CHECK(tree.insert(28, "RRR") == 1);
 		CHECK(tree.insert(27, "RRRL") == 1);
 		CHECK(tree.insert(30, "RRRR") == 1);
+		std::cout<<"Here"<<std::endl;
+		for(BTree<int>::Iterator it = tree.begin(); it != tree.end(); ++it){
+			std::cout<<(*it)<<std::endl;
+		}
 
-		tree.deletedBOT(20);
+		//tree.deletedBOT(20);
 	}
 }

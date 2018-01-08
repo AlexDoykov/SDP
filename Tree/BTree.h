@@ -294,11 +294,53 @@ public:
 
 	class Iterator{
 	private:
+		Node<T>* root;
+		std::stack<Node<T>*> subTrees;
+
+		void pushIfNotNull(Node<T>* root){
+			if(root == nullptr){
+				return;
+			}
+
+			if(root->right != nullptr){
+				subTrees.push(root->right);
+			}
+
+			if(root->left != nullptr){
+				subTrees.push(root->left);
+			}
+		}
+
 	public:
-		void operator ++();
-		const T& operator *();
+		Iterator(Node<T>* _root){
+			pushIfNotNull(root);
+		}
+
+		void operator ++ (){
+			if(subTrees.top().childless()){
+				root = subTrees.top();
+			}
+			subTrees.pop();
+			pushIfNotNull(root);
+		}
+
+		const T& operator * (){
+			return root->data;
+		}
+
+		bool operator != (const Iterator& other){
+			return subTrees.size() != other.subTrees.size();
+		}
 
 	};
+
+	Iterator begin(){
+		return Iterator(root);
+	}
+
+	Iterator end(){
+		return Iterator(nullptr);
+	}
 
 /*	BTree(const T& rootData, const BTree<T>& leftSubTree, const BTree<T>& RightSubTree):root(nullptr){
 		root = new Node<T>(rootData, leftSubTree.root, RightSubTree);
@@ -428,7 +470,7 @@ public:
 					copyTree(root->right));
 	}
 
-	void deleteNode(Node<T>* root, const T& x){
+/*	void deleteNode(Node<T>* root, const T& x){
 		if(root == nullptr){
 			return;
 		}
@@ -462,5 +504,5 @@ public:
 		Node<T>* newRoot = copyTree(root);
 		deleteNode(newRoot, x);
 		return BTree(root, deletedBOT(x, root->left), deletedBOT(x, root->right));
-	}
+	}*/
 };
