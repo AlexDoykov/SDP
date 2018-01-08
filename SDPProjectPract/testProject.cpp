@@ -1,16 +1,10 @@
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <sstream>
 #include <queue>
 #include "Tree.h"
 #include "Hash.h"
-
-/*string binarySequence(const Tree& tree, const string& str){
-	if(str.size() == 0){
-		return "";
-	}
-
-	return tree.trace(str[0]) + 
-			binarySequence(tree, str.erase(str.begin()));
-}*/
 
 struct Compare{
 	bool operator()(Tree t1, Tree t2){
@@ -20,6 +14,27 @@ struct Compare{
 		return t1.rootData().second > t2.rootData().second;
 	}
 };
+
+std::vector<unsigned char> binarySequence(map<char, string> codesTable, const string& str){
+	std::vector<unsigned char> result;
+	int counter = 0, k = 0;
+	result.resize(k+1);
+	for(int i = 0; i < str.size(); i++){
+		string sequence = codesTable[str[i]];
+		std::cout<<sequence<<" "<<str[i]<<std::endl;	
+		for(int j = 0; j < sequence.size(); j++){
+			std::cout<<sequence[j]<<std::endl;
+			if(counter == 8){
+				counter = 0;
+				k++;
+				result.resize(k+1);
+			}
+			result[k] |= (sequence[j] == '1') << (7 - counter);
+			counter++;
+		}
+	}
+	return result;
+}
 
 Tree buildHuffmanTree(std::priority_queue<Tree, std::vector<Tree>, Compare> trees){
 	while(trees.size() > 1){
@@ -36,7 +51,7 @@ Tree buildHuffmanTree(std::priority_queue<Tree, std::vector<Tree>, Compare> tree
 		
 		unsigned newRootData = tree1.rootData().second + tree2.rootData().second;
 
-		trees.push(Tree(std::make_pair(0, newRootData), 
+		trees.push(Tree(std::make_pair(char(), newRootData), 
 										tree1, tree2));
 
 	}
@@ -50,18 +65,28 @@ int main(){
 		table.add(testString[i]);
 	}
 	
-	//std::vector<Tree> trees;
 	std::priority_queue<Tree, std::vector<Tree>, Compare> trees;
 	for(Hash::Iterator it = table.begin(); it != table.end(); ++it){
 		trees.push((*it));
 	}
 
 	Tree huffmanTree = buildHuffmanTree(trees);
-	//binarySequence(tree, testString);
+	map<char, string> codesTable = huffmanTree.table();
+	std::vector<unsigned char> v = binarySequence(codesTable, testString);
 
 	std::cout<<"====================\n";
-	huffmanTree.print();
+	for(std::vector<unsigned char>::iterator it = v.begin(); it != v.end(); it++){
+		std::cout<<(int)(*it)<<std::endl;
+	}
 	std::cout<<"====================\n";
+
+	std::ofstream f1 ("before.dot");
+	huffmanTree.printDotty (f1);
+
+	 huffmanTree.fillGaps (std::make_pair(char(), unsigned()),5);
+
+	 std::ofstream f2 ("after.dot");
+	huffmanTree.printDotty (f2);
 
 	return 0;
 }
