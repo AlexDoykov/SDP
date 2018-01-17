@@ -1,4 +1,6 @@
 #include <map>
+#include "boost/dynamic_bitset.hpp"
+using namespace boost;
 using Pair = std::pair<char,unsigned>;
 using std::map;
 using std::string;
@@ -129,18 +131,24 @@ private:
 
 
 
-/*
-	string trace(char x, Node* root){
-		if(root == nullptr){
-			return "";
+
+	void getString(dynamic_bitset<> bitset, Node* subRoot, unsigned index, string& result){
+		if(index == bitset.size() + 1){
+			return;
+		}
+		if(subRoot->data.first != char()){
+			result += subRoot->data.first;
+			getString(bitset, root, index, result);
+			return;
+		}
+		if(bitset[index] == true){
+			getString(bitset, subRoot->right, index + 1, result);
+			return;
 		}
 
-		if(root->data.first == x){
-			return 
-		}
-
-		return 
-	}*/
+		getString(bitset, subRoot->left, index + 1, result);
+		return;
+	}
 
 public:
 	Tree():root(nullptr){
@@ -184,11 +192,9 @@ public:
 	}
 
 
-/*	string trace(char x){
-		return trace(x, root);
-	}*/
-
-	/*vector<char> binarySequence(){
-
-	}*/
+	string getString(dynamic_bitset<> bitset){
+		string result;
+		getString(bitset, root, 0, result);
+		return result;
+	}
 };

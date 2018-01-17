@@ -5,6 +5,8 @@
 #include <queue>
 #include "Tree.h"
 #include "Hash.h"
+Hash table;
+Tree huffmanTree;
 
 struct Compare{
 	bool operator()(Tree t1, Tree t2){
@@ -15,22 +17,14 @@ struct Compare{
 	}
 };
 
-std::vector<unsigned char> binarySequence(map<char, string> codesTable, const string& str){
-	std::vector<unsigned char> result;
+dynamic_bitset<> bitsSequence(map<char, string> codesTable, const string& str) {
+	dynamic_bitset<> result;
 	int counter = 0, k = 0;
-	result.resize(k+1);
+	//result.resize(k+1);
 	for(int i = 0; i < str.size(); i++){
 		string sequence = codesTable[str[i]];
-		std::cout<<sequence<<" "<<str[i]<<std::endl;	
 		for(int j = 0; j < sequence.size(); j++){
-			std::cout<<sequence[j]<<std::endl;
-			if(counter == 8){
-				counter = 0;
-				k++;
-				result.resize(k+1);
-			}
-			result[k] |= (sequence[j] == '1') << (7 - counter);
-			counter++;
+			result.push_back((bool)(sequence[j] - '0'));
 		}
 	}
 	return result;
@@ -58,9 +52,7 @@ Tree buildHuffmanTree(std::priority_queue<Tree, std::vector<Tree>, Compare> tree
 	return trees.top();
 }
 
-int main(){
-	Hash table;
-	std::string testString = "ABRACADABRA";
+dynamic_bitset<> compress(const string& testString){
 	for(int i = 0; i < testString.size(); i++){
 		table.add(testString[i]);
 	}
@@ -70,23 +62,37 @@ int main(){
 		trees.push((*it));
 	}
 
-	Tree huffmanTree = buildHuffmanTree(trees);
+	huffmanTree = buildHuffmanTree(trees);
+	std::cout<<"====================\n";
+	huffmanTree.print();
+	std::cout<<"====================\n";
 	map<char, string> codesTable = huffmanTree.table();
-	std::vector<unsigned char> v = binarySequence(codesTable, testString);
+	return bitsSequence(codesTable, testString);
+}
 
-	std::cout<<"====================\n";
-	for(std::vector<unsigned char>::iterator it = v.begin(); it != v.end(); it++){
-		std::cout<<(int)(*it)<<std::endl;
-	}
-	std::cout<<"====================\n";
+std::string decompress(const dynamic_bitset<>& bitset){
+	return huffmanTree.getString(bitset);
+}
 
+int main(){
+
+	std::string testString = "ABRACADABRA";
+	dynamic_bitset<> compressed = compress(testString);
+	string s;
+	to_string(compressed, s);
+	std::cout<<s<<std::endl;
+
+	string decompressed = decompress(compressed);
+	std::cout<<decompressed<<std::endl;
+
+/*
 	std::ofstream f1 ("before.dot");
 	huffmanTree.printDotty (f1);
 
 	 huffmanTree.fillGaps (std::make_pair(char(), unsigned()),5);
 
 	 std::ofstream f2 ("after.dot");
-	huffmanTree.printDotty (f2);
+	huffmanTree.printDotty (f2);*/
 
 	return 0;
 }
