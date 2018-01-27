@@ -1,9 +1,11 @@
 #include <map>
+#include <iostream>
 #include "boost/dynamic_bitset.hpp"
 using namespace boost;
 using Pair = std::pair<char,unsigned>;
 using std::map;
 using std::string;
+using std::ostream;
 
 struct Node{
 public:
@@ -53,7 +55,7 @@ private:
 
 	void printSpaces(unsigned spaces) {
 		for(int i = 0; i < spaces; i++){
-			std::cout<<"     ";
+			std::cout<<"                 ";
 		}
 	}
 
@@ -76,63 +78,7 @@ private:
 
 	}
 
-
-	/*взето е от примерния код от лекции*/
-	void printNodesDotty (std::ostream& out, Node *root)
-	{
-	  if (root == nullptr)
-	  {
-	    return;
-	  }
-
-	  out << root->getId()
-	      << "[label=\""
-	      << root->data.second
-	      << "\"];"
-	      << std::endl;
-
-	  if (root->left != nullptr)
-	  {
-	    out << root->getId()
-	        << "->"
-	        << root->left->getId()
-	        << "[color = \"red\"]"
-	        << ";"
-	        << std::endl;
-	  }
-
-	  if (root->right != nullptr)
-	  {
-	    out << root->getId()
-	        << "->"
-	        << root->right->getId()
-	        << ";"
-	        << std::endl;
-	  }
-	  printNodesDotty (out, root->left);
-	  printNodesDotty (out, root->right);
-	}
-
-	void fillGaps (const Pair &x, Node *&crr, unsigned int h)
-	{
-	  if (h == 0)
-	  {
-	    return;
-	  }
-
-	  if (crr == nullptr)
-	  {
-	    crr = new Node (x,nullptr,nullptr);
-	  }
-
-	  fillGaps (x,crr->left,h-1);
-	  fillGaps (x,crr->right,h-1);
-	}
-
-
-
-
-	void getString(dynamic_bitset<> bitset, Node* subRoot, unsigned index, string& result){
+	void getString(dynamic_bitset<> bitset, Node* subRoot, unsigned index, string& result) const{
 		if(index == bitset.size() + 1){
 			return;
 		}
@@ -182,19 +128,34 @@ public:
 		return result;
 	}
 
-	void printDotty(std::ostream& out){
-		printNodesDotty(out, root);
-	}
-
-	void fillGaps (const Pair& x, unsigned int h)
-	{
-	  fillGaps (x,root,h);
-	}
-
-
-	string getString(dynamic_bitset<> bitset){
+	string getString(dynamic_bitset<> bitset) const{
 		string result;
 		getString(bitset, root, 0, result);
 		return result;
 	}
+
+	friend ostream& operator << (ostream&,const Tree&);
 };
+
+void printLisp(ostream& out, Node* root){
+	if(root == nullptr){
+		out<<"()";
+		return;
+	}
+	out<<"(";
+	printLisp(out, root->left);
+	if(root->data.first != char()){
+		out<<root->data.second<<",\""<<root->data.first<<"\"";
+	}else{
+		out<<root->data.second;
+	}
+	
+	printLisp(out, root->right);
+	out<<")";
+}
+
+
+ostream& operator << (ostream& out, const Tree& tree){
+	printLisp(out, tree.root);
+	return out;
+}
